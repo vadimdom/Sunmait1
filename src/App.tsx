@@ -1,8 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { fightEmulation } from './fight';
 
 const App: React.FC = () => {
+  fightEmulation();
+
   return (
     <div className="App">
       <header className="App-header">
