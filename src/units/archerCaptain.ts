@@ -1,7 +1,8 @@
-import { Archer, ActiveSkill } from './archer';
+import { Archer } from './archer';
+import { ActiveDamageSkill } from './skillBehavior/activeDamageSkillBehavior';
 
 export class ArcherCaptain extends Archer {
-  skill: ActiveSkill;
+  skill: ActiveDamageSkill;
 
   constructor(
   ) {

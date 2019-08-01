@@ -17,55 +17,20 @@ export class DefaultUnit {
   armor: number;
   mana: number;
   skill: Skill;
+  skill2?: Skill;
   isDead: boolean;
 
-  constructor(
-    userName?: string,
-    userType?: string | null,
-    userDamage?: Damage | null,
-    userHealth?: number,
-    userArmor?: number,
-    userMana? : number,
-    userSkill?: Skill
-  ) {
-    if (userName) {
-      this.unitName = userName;
-    } else {
-      this.unitName = 'Default Unit';
-    }
-    if (userType) {
-      this.type = userType;
-    } else {
-      this.type = '';
-    }
-    if (userDamage && userDamage.min && userDamage.max) {
-      this.damage = userDamage;
-    } else {
-      this.damage = {
-        min: 5,
-        max: 10
-      };
-    }
-    if (userHealth) {
-      this.health = userHealth;
-    } else {
-      this.health = 10;
-    }
-    if (userArmor) {
-      this.armor = userArmor;
-    } else {
-      this.armor = 0;
-    }
-    if (userMana) {
-      this.mana = userMana;
-    } else {
-      this.mana = 0;
-    }
-    if (userSkill) {
-      this.skill = userSkill;
-    } else {
-      this.skill = { type : 'none'};
-    }
+  constructor() {
+    this.unitName = 'Default Unit';
+    this.type = '';
+    this.damage = {
+      min: 5,
+      max: 10
+    };
+    this.health = 10;
+    this.armor = 0;
+    this.mana = 0;
+    this.skill = { type : 'none'};
     this.isDead = false;
   };
 
@@ -107,27 +72,5 @@ export class DefaultUnit {
       ${ this.skill.type === 'none' ? `Skill: No skill` : `Skill: ${this.skill.type}, ${this.skill.name}, ${this.skill.description}`}
       ${this.isDead ? 'Is Dead!!!((((' : ''}
       `;
-  };
-
-  attack(otherUnit: DefaultUnit): void {
-    if (otherUnit.unitName === this.unitName && otherUnit.type === this.type) {
-      console.log(`You can not make harakiri`);
-    } else {
-      if (otherUnit.isDead) {
-        console.log(`You can not attack dead units`);
-      } else {
-        console.log(`${this.unitName} ${this.type} attacked ${otherUnit.unitName}`);
-        // console.log(`before = ${otherUnit.health}`);
-        const attackDamage = Math.floor(Math.random() * (+this.damage.max - +this.damage.min)) + +this.damage.min;
-        console.log(`Damage = ${attackDamage}`);
-        otherUnit.health = otherUnit.health + otherUnit.armor - attackDamage;
-        if (otherUnit.health <= 0) {
-          otherUnit.isDead = true;
-          otherUnit.health = 0;
-          console.log(`${otherUnit.unitName} is killed by ${this.unitName} ${this.type}`)
-        }
-        // console.log(`after = ${otherUnit.health}`);
-      }
-    }
   };
 };

@@ -1,12 +1,9 @@
-import { DefaultUnit, Skill } from './common';
-
-export interface ActiveSkill extends Skill {
-  damage: number;
-  cost: number;
-}
+import { DefaultUnit } from './common';
+import { SimpleAttack } from './attackBehavior/attackBehavior';
+import { ActiveDamageSkill, SimpleDamageSkill } from './skillBehavior/activeDamageSkillBehavior';
 
 export class Archer extends DefaultUnit {
-  skill: ActiveSkill;
+  skill: ActiveDamageSkill;
 
   constructor(
   ) {
@@ -27,27 +24,13 @@ export class Archer extends DefaultUnit {
     };
   }
 
-  useSkill(otherUnit: DefaultUnit): void {
-    if (otherUnit.unitName === this.unitName && otherUnit.type === this.type) {
-      console.log(`You can not make harakiri`);
-    } else {
-      if (otherUnit.isDead) {
-        console.log(`You can not use skill on dead units!`);
-      } else {
-        if (this.mana < this.skill.cost) {
-          console.log('You have no enough mana!');
-        } else {
-          console.log(`${this.unitName} ${this.type} used Skill on ${otherUnit.unitName}`);
-          this.mana = this.mana - this.skill.cost;
-          otherUnit.health = otherUnit.health + otherUnit.armor - this.skill.damage;
-          console.log(`Damage = ${this.skill.damage}`);
-          if (otherUnit.health <= 0) {
-            otherUnit.isDead = true;
-            otherUnit.health = 0;
-            console.log(`${otherUnit.unitName} is killed by ${this.unitName} ${this.type}`)
-          }
-        }
-      }
-    }
+  attack(otherUnit: DefaultUnit) {
+    const performSimpleAttack = new SimpleAttack();
+    performSimpleAttack.attack(this, otherUnit);
   }
-}
+
+  useSkill(otherUnit: DefaultUnit): void {
+    const useDamageSkill = new SimpleDamageSkill();
+    useDamageSkill.useSkill(this, otherUnit);
+  }
+};

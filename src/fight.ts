@@ -26,6 +26,7 @@ export const fightEmulation = () => {
   archer.useSkill(paladin);
   archer.useSkill(paladin);
   archerCaptain.useSkill(paladin);
+  paladin.useHealSkill(paladin);
   archerCaptain.useSkill(paladin);
   archerCaptain.useSkill(paladin);
   archerCaptain.useSkill(paladin);

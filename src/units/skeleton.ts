@@ -1,9 +1,5 @@
-import { DefaultUnit, Skill } from './common';
-
-export interface PassiveSkill extends Skill {
-  multiplier: number;
-  chance: number;
-}
+import { DefaultUnit } from './common';
+import { AttackWithCriticalChance, PassiveSkill } from './attackBehavior/attackBehavior';
 
 export class Skeleton extends DefaultUnit {
   skill: PassiveSkill;
@@ -27,33 +23,8 @@ export class Skeleton extends DefaultUnit {
     };
   }
 
-  attack(otherUnit: DefaultUnit): void {
-    if (otherUnit.unitName === this.unitName && otherUnit.type === this.type) {
-      console.log(`You can not make harakiri`);
-    } else {
-      if (otherUnit.isDead) {
-        console.log(`You can not attack dead units!`);
-      } else {
-        console.log(`${this.unitName} ${this.type} attacked ${otherUnit.unitName}`);
-        // console.log(`before = ${otherUnit.health}`);
-        let resultDamage;
-        const attackDamage = Math.floor(Math.random() * (+this.damage.max - +this.damage.min)) + +this.damage.min;
-        const skillChance = Math.floor(Math.random() * 100);
-        if (skillChance > this.skill.chance) {
-          resultDamage = attackDamage;
-        } else {
-          console.log(`Critical hit`);
-          resultDamage = this.skill.multiplier * attackDamage;
-        }
-        console.log(`Damage = ${resultDamage}`);
-        otherUnit.health = otherUnit.health + otherUnit.armor - resultDamage;
-        if (otherUnit.health <= 0) {
-          otherUnit.isDead = true;
-          otherUnit.health = 0;
-          console.log(`${otherUnit.unitName} is killed by ${this.unitName} ${this.type}`)
-        }
-        // console.log(`after = ${otherUnit.health}`);
-      }
-    }
+  attack(otherUnit: DefaultUnit) {
+    const performAttack = new AttackWithCriticalChance();
+    performAttack.attack(this, otherUnit);
   }
 }

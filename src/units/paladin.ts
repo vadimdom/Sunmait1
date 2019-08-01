@@ -1,7 +1,10 @@
-import { Skeleton, PassiveSkill } from './skeleton';
+import { DefaultUnit } from './common';
+import { AttackWithCriticalChance, PassiveSkill } from './attackBehavior/attackBehavior';
+import { ActiveHealSkill, SimpleHealSkill } from './skillBehavior/activeDamageSkillBehavior';
 
-export class Paladin extends Skeleton {
+export class Paladin extends DefaultUnit {
   skill: PassiveSkill;
+  skill2: ActiveHealSkill;
 
   constructor(
   ) {
@@ -20,5 +23,22 @@ export class Paladin extends Skeleton {
       chance: 30,
       description: '30% to deal 3x damage'
     };
+    this.skill2 = {
+      type: 'Active',
+      name: 'Heal',
+      health: 100,
+      cost: 50,
+      description: 'Heal by 100 HP'
+    };
+  }
+
+  attack(otherUnit: DefaultUnit) {
+    const performAttack = new AttackWithCriticalChance();
+    performAttack.attack(this, otherUnit);
+  };
+
+  useHealSkill(otherUnit: DefaultUnit) {
+    const uesHealSkill = new SimpleHealSkill();
+    uesHealSkill.useSkill(this, otherUnit);
   }
 }
