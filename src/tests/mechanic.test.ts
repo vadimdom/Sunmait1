@@ -1,5 +1,4 @@
-import { Paladin } from './../units/paladin';
-import { Archer, ArcherCaptain, Swordsman, Skeleton } from '../units';
+import { Archer, ArcherCaptain, Swordsman, Skeleton, Paladin } from '../units';
 import { archerTemplate, archerCaptainTemplate, swordsmanTemplate, paladinTemplate } from './templates';
 
 describe('Mechanics', () => {
@@ -36,7 +35,7 @@ describe('Mechanics', () => {
     expect(swordsman.health).toBe(swordsmanTemplate.healthAfterTwoArcherSkills);
   });
 
-  it(`Unit received damage that decrease its HP to 0 is dead`, () => {
+  it(`Unit received damage decrease its HP to 0`, () => {
     const archer = new Archer();
     const skeleton = new Skeleton();
 
@@ -44,7 +43,6 @@ describe('Mechanics', () => {
     archer.useSkill(skeleton);
 
     expect(skeleton.health).toBe(0);
-    expect(skeleton.isDead).toBeTruthy();
   });
 
   it(`Armor is working`, () => {

@@ -29,6 +29,6 @@ describe('Swordsman has right parameters', () => {
   it('Swordsman has no skill', () => {
     const swordsman = new Swordsman();
 
-    expect(swordsman.skill).toEqual(swordsmanTemplate.skill);
+    expect(swordsman).not.toHaveProperty('skill');
   });
 })

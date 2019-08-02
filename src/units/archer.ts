@@ -1,8 +1,14 @@
 import { DefaultUnit } from './common';
 import { SimpleAttack } from './attackBehavior/attackBehavior';
-import { ActiveDamageSkill, SimpleDamageSkill } from './skillBehavior/activeDamageSkillBehavior';
+import { SimpleDamageSkill } from './skillBehavior/activeDamageSkillBehavior';
+import { ActiveDamageSkill, ICanAttack, IWithActiveDamageSkill } from './interfaces';
 
-export class Archer extends DefaultUnit {
+export class Archer
+extends DefaultUnit
+implements
+  ICanAttack,
+  IWithActiveDamageSkill
+{
   skill: ActiveDamageSkill;
 
   constructor(
@@ -29,7 +35,7 @@ export class Archer extends DefaultUnit {
     performSimpleAttack.attack(this, otherUnit);
   }
 
-  useSkill(otherUnit: DefaultUnit): void {
+  useSkill(otherUnit: DefaultUnit) {
     const useDamageSkill = new SimpleDamageSkill();
     useDamageSkill.useSkill(this, otherUnit);
   }

@@ -1,5 +1,5 @@
 import { Archer } from './archer';
-import { ActiveDamageSkill } from './skillBehavior/activeDamageSkillBehavior';
+import { ActiveDamageSkill } from './interfaces';
 
 export class ArcherCaptain extends Archer {
   skill: ActiveDamageSkill;

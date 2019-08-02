@@ -1,16 +1,12 @@
-import { DefaultUnit, Skill } from '../common';
+import { DefaultUnit } from '../common';
+import { PassiveSkill } from '../interfaces';
 
-export interface PassiveSkill extends Skill {
-  multiplier: number;
-  chance: number;
-}
-
-interface WithCriticalStrike extends DefaultUnit {
+interface UnitWithCriticalStrike extends DefaultUnit {
   skill: PassiveSkill;
 }
 
-interface AttackBehavior {
-  attack: (user: WithCriticalStrike, target: DefaultUnit) => void;
+export interface AttackBehavior {
+  attack: (user: UnitWithCriticalStrike, target: DefaultUnit) => void;
 };
 
 export class SimpleAttack implements AttackBehavior {
@@ -18,7 +14,7 @@ export class SimpleAttack implements AttackBehavior {
     if (otherUnit.unitName === attacking.unitName && otherUnit.type === attacking.type) {
       console.log(`You can not make harakiri`);
     } else {
-      if (otherUnit.isDead) {
+      if (otherUnit.health <= 0) {
         console.log(`You can not attack dead units`);
       } else {
         console.log(`${attacking.unitName} ${attacking.type} attacked ${otherUnit.unitName}`);
@@ -27,7 +23,6 @@ export class SimpleAttack implements AttackBehavior {
         console.log(`Damage = ${attackDamage}`);
         otherUnit.health = otherUnit.health + otherUnit.armor - attackDamage;
         if (otherUnit.health <= 0) {
-          otherUnit.isDead = true;
           otherUnit.health = 0;
           console.log(`${otherUnit.unitName} is killed by ${attacking.unitName} ${attacking.type}`)
         }
@@ -38,11 +33,11 @@ export class SimpleAttack implements AttackBehavior {
 }
 
 export class AttackWithCriticalChance implements AttackBehavior {
-  attack = (attacking: WithCriticalStrike, otherUnit: DefaultUnit): void => {
+  attack = (attacking: UnitWithCriticalStrike, otherUnit: DefaultUnit): void => {
     if (otherUnit.unitName === attacking.unitName && otherUnit.type === attacking.type) {
       console.log(`You can not make harakiri`);
     } else {
-      if (otherUnit.isDead) {
+      if (otherUnit.health <= 0) {
         console.log(`You can not attack dead units!`);
       } else {
         console.log(`${attacking.unitName} ${attacking.type} attacked ${otherUnit.unitName}`);
@@ -59,7 +54,6 @@ export class AttackWithCriticalChance implements AttackBehavior {
         console.log(`Damage = ${resultDamage}`);
         otherUnit.health = otherUnit.health + otherUnit.armor - resultDamage;
         if (otherUnit.health <= 0) {
-          otherUnit.isDead = true;
           otherUnit.health = 0;
           console.log(`${otherUnit.unitName} is killed by ${attacking.unitName} ${attacking.type}`)
         }

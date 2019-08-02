@@ -1,7 +1,12 @@
 import { DefaultUnit } from './common';
 import { SimpleAttack } from './attackBehavior/attackBehavior';
+import { ICanAttack } from './interfaces';
 
-export class Swordsman extends DefaultUnit {
+export class Swordsman
+  extends DefaultUnit
+  implements
+    ICanAttack
+{
   constructor(
   ) {
     super();

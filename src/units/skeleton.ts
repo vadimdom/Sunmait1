@@ -1,7 +1,13 @@
 import { DefaultUnit } from './common';
-import { AttackWithCriticalChance, PassiveSkill } from './attackBehavior/attackBehavior';
+import { AttackWithCriticalChance } from './attackBehavior/attackBehavior';
+import { ICanAttack, IWithPassiveSkill, PassiveSkill } from './interfaces';
 
-export class Skeleton extends DefaultUnit {
+export class Skeleton
+  extends DefaultUnit
+  implements
+    ICanAttack,
+    IWithPassiveSkill
+{
   skill: PassiveSkill;
 
   constructor(

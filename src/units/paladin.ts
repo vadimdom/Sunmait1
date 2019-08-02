@@ -1,8 +1,15 @@
 import { DefaultUnit } from './common';
-import { AttackWithCriticalChance, PassiveSkill } from './attackBehavior/attackBehavior';
-import { ActiveHealSkill, SimpleHealSkill } from './skillBehavior/activeDamageSkillBehavior';
+import { AttackWithCriticalChance } from './attackBehavior/attackBehavior';
+import { ICanAttack, IWithPassiveSkill, IWithActiveHealSkill, ActiveHealSkill, PassiveSkill } from './interfaces';
+import { SimpleHealSkill } from './skillBehavior/activeDamageSkillBehavior';
 
-export class Paladin extends DefaultUnit {
+export class Paladin
+  extends DefaultUnit
+  implements
+    ICanAttack,
+    IWithPassiveSkill,
+    IWithActiveHealSkill
+{
   skill: PassiveSkill;
   skill2: ActiveHealSkill;
 

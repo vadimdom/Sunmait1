@@ -1,42 +1,27 @@
-import { DefaultUnit, Skill } from '../common';
+import { DefaultUnit } from '../common';
+import { ActiveDamageSkill, ActiveHealSkill } from '../interfaces';
 
-export interface ActiveDamageSkill extends Skill {
-  damage: number;
-  cost: number;
-};
-
-export interface PassiveSkill extends Skill {
-  multiplier: number;
-  chance: number;
-}
-
-export interface ActiveHealSkill extends Skill {
-  health: number;
-  cost: number;
-};
-
-interface WithActiveDamageSkill extends DefaultUnit {
+interface UnitWithActiveDamageSkill extends DefaultUnit {
   skill: ActiveDamageSkill;
 };
 
-interface WithActiveHealSkill extends DefaultUnit {
-  skill: PassiveSkill;
+interface UnitWithActiveHealSkill extends DefaultUnit {
   skill2: ActiveHealSkill;
 };
 
 interface ActiveDamageSkillBehavior {
-  useSkill: (user: WithActiveDamageSkill, target: DefaultUnit) => void;
+  useSkill: (user: UnitWithActiveDamageSkill, target: DefaultUnit) => void;
 };
 interface ActiveHealSkillBehavior {
-  useSkill: (user: WithActiveHealSkill, target: DefaultUnit) => void;
+  useSkill: (user: UnitWithActiveHealSkill, target: DefaultUnit) => void;
 };
 
 export class SimpleDamageSkill implements ActiveDamageSkillBehavior {
-  useSkill = (attacking: WithActiveDamageSkill, otherUnit: DefaultUnit): void => {
+  useSkill = (attacking: UnitWithActiveDamageSkill, otherUnit: DefaultUnit): void => {
     if (otherUnit.unitName === attacking.unitName && otherUnit.type === attacking.type) {
       console.log(`You can not make harakiri`);
     } else {
-      if (otherUnit.isDead) {
+      if (otherUnit.health <= 0) {
         console.log(`You can not use skill on dead units!`);
       } else {
         if (attacking.mana < attacking.skill.cost) {
@@ -47,7 +32,6 @@ export class SimpleDamageSkill implements ActiveDamageSkillBehavior {
           otherUnit.health = otherUnit.health + otherUnit.armor - attacking.skill.damage;
           console.log(`Damage = ${attacking.skill.damage}`);
           if (otherUnit.health <= 0) {
-            otherUnit.isDead = true;
             otherUnit.health = 0;
             console.log(`${otherUnit.unitName} is killed by ${attacking.unitName} ${attacking.type}`)
           }
@@ -58,8 +42,8 @@ export class SimpleDamageSkill implements ActiveDamageSkillBehavior {
 };
 
 export class SimpleHealSkill implements ActiveHealSkillBehavior {
-  useSkill = (healer: WithActiveHealSkill, target: DefaultUnit): void => {
-    if (target.isDead) {
+  useSkill = (healer: UnitWithActiveHealSkill, target: DefaultUnit): void => {
+    if (target.health <= 0) {
       console.log(`You can not heal dead units!`);
     } else {
       if (healer.mana < healer.skill2.cost) {
