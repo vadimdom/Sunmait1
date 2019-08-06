@@ -1,5 +1,5 @@
 import { DefaultUnit } from './common';
-import { SimpleAttack } from './attackBehavior/attackBehavior';
+import { AttackBehavior, SimpleAttack } from './attackBehavior/attackBehavior';
 import { SimpleDamageSkill } from './skillBehavior/activeDamageSkillBehavior';
 import { ActiveDamageSkill, ICanAttack, IWithActiveDamageSkill } from './interfaces';
 
@@ -10,6 +10,7 @@ implements
   IWithActiveDamageSkill
 {
   skill: ActiveDamageSkill;
+  attackBehavior: AttackBehavior;
 
   constructor(
   ) {
@@ -28,11 +29,11 @@ implements
       cost: 50,
       description: 'Deal 100 damage'
     };
+    this.attackBehavior = new SimpleAttack();
   }
 
   attack(otherUnit: DefaultUnit) {
-    const performSimpleAttack = new SimpleAttack();
-    performSimpleAttack.attack(this, otherUnit);
+    this.attackBehavior.attack && this.attackBehavior.attack(this, otherUnit);
   }
 
   useSkill(otherUnit: DefaultUnit) {

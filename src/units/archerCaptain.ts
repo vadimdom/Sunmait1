@@ -1,9 +1,6 @@
 import { Archer } from './archer';
-import { ActiveDamageSkill } from './interfaces';
 
 export class ArcherCaptain extends Archer {
-  skill: ActiveDamageSkill;
-
   constructor(
   ) {
     super();

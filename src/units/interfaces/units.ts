@@ -1,5 +1,6 @@
 import { DefaultUnit } from '../common';
 import { ActiveDamageSkill, ActiveHealSkill, PassiveSkill } from './skills';
+import { AttackBehavior } from '../attackBehavior/attackBehavior';
 
 export interface Damage {
   min: number;
@@ -39,6 +40,8 @@ export interface IWithActiveHealSkill {
 };
 
 export interface ICanAttack {
+  attackBehavior: AttackBehavior;
+
   attack: (target: DefaultUnit) => void;
 };
 

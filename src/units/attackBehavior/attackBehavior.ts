@@ -6,7 +6,8 @@ interface UnitWithCriticalStrike extends DefaultUnit {
 }
 
 export interface AttackBehavior {
-  attack: (user: UnitWithCriticalStrike, target: DefaultUnit) => void;
+  attack?: (user: DefaultUnit, target: DefaultUnit) => void;
+  attackWithCriticalChance?: (user: UnitWithCriticalStrike, target: DefaultUnit) => void;
 };
 
 export class SimpleAttack implements AttackBehavior {
@@ -33,7 +34,7 @@ export class SimpleAttack implements AttackBehavior {
 }
 
 export class AttackWithCriticalChance implements AttackBehavior {
-  attack = (attacking: UnitWithCriticalStrike, otherUnit: DefaultUnit): void => {
+  attackWithCriticalChance = (attacking: UnitWithCriticalStrike, otherUnit: DefaultUnit): void => {
     if (otherUnit.unitName === attacking.unitName && otherUnit.type === attacking.type) {
       console.log(`You can not make harakiri`);
     } else {

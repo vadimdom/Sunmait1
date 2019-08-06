@@ -1,5 +1,5 @@
 import { DefaultUnit } from './common';
-import { AttackWithCriticalChance } from './attackBehavior/attackBehavior';
+import { AttackBehavior, AttackWithCriticalChance } from './attackBehavior/attackBehavior';
 import { ICanAttack, IWithPassiveSkill, IWithActiveHealSkill, ActiveHealSkill, PassiveSkill } from './interfaces';
 import { SimpleHealSkill } from './skillBehavior/activeDamageSkillBehavior';
 
@@ -12,6 +12,7 @@ export class Paladin
 {
   skill: PassiveSkill;
   skill2: ActiveHealSkill;
+  attackBehavior: AttackBehavior;
 
   constructor(
   ) {
@@ -37,11 +38,11 @@ export class Paladin
       cost: 50,
       description: 'Heal by 100 HP'
     };
+    this.attackBehavior = new AttackWithCriticalChance();
   }
 
   attack(otherUnit: DefaultUnit) {
-    const performAttack = new AttackWithCriticalChance();
-    performAttack.attack(this, otherUnit);
+    this.attackBehavior.attackWithCriticalChance && this.attackBehavior.attackWithCriticalChance(this, otherUnit);
   };
 
   useHealSkill(otherUnit: DefaultUnit) {

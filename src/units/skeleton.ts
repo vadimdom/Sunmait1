@@ -1,5 +1,5 @@
 import { DefaultUnit } from './common';
-import { AttackWithCriticalChance } from './attackBehavior/attackBehavior';
+import { AttackBehavior, AttackWithCriticalChance } from './attackBehavior/attackBehavior';
 import { ICanAttack, IWithPassiveSkill, PassiveSkill } from './interfaces';
 
 export class Skeleton
@@ -9,6 +9,7 @@ export class Skeleton
     IWithPassiveSkill
 {
   skill: PassiveSkill;
+  attackBehavior: AttackBehavior;
 
   constructor(
   ) {
@@ -27,10 +28,10 @@ export class Skeleton
       chance: 20,
       description: '20% to deal 2x damage'
     };
+    this.attackBehavior = new AttackWithCriticalChance();
   }
 
   attack(otherUnit: DefaultUnit) {
-    const performAttack = new AttackWithCriticalChance();
-    performAttack.attack(this, otherUnit);
+    this.attackBehavior.attackWithCriticalChance && this.attackBehavior.attackWithCriticalChance(this, otherUnit);
   }
 }

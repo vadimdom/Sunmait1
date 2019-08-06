@@ -1,5 +1,5 @@
 import { DefaultUnit } from './common';
-import { SimpleAttack } from './attackBehavior/attackBehavior';
+import { AttackBehavior, SimpleAttack } from './attackBehavior/attackBehavior';
 import { ICanAttack } from './interfaces';
 
 export class Swordsman
@@ -7,6 +7,8 @@ export class Swordsman
   implements
     ICanAttack
 {
+  attackBehavior: AttackBehavior;
+
   constructor(
   ) {
     super();
@@ -16,10 +18,10 @@ export class Swordsman
     this.health = 500;
     this.mana = 0;
     this.armor = 2;
+    this.attackBehavior = new SimpleAttack();
   }
 
   attack(otherUnit: DefaultUnit) {
-    const performAttack = new SimpleAttack();
-    performAttack.attack(this, otherUnit);
+    this.attackBehavior.attack && this.attackBehavior.attack(this, otherUnit);
   }
 }
