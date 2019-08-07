@@ -1,13 +1,15 @@
-import { Swordsman, Archer, ArcherCaptain, Skeleton, Paladin } from './units';
+import { UnitsFabric } from './units/unitsFabric';
 
 export const fightEmulation = () => {
 
+  const unitFabric = new UnitsFabric();
+
   console.log('Before fight:');
-  let swordsman = new Swordsman();
-  let archer = new Archer();
-  let archerCaptain = new ArcherCaptain();
-  let skeleton = new Skeleton();
-  let paladin = new Paladin();
+  let swordsman = unitFabric.createSwordsman();
+  let archer = unitFabric.createArcher();
+  let archerCaptain = unitFabric.createArcherCaptain();
+  let skeleton = unitFabric.createSkeleton();
+  let paladin = unitFabric.createPaladin();
   console.log(swordsman.introduceYourself());
   console.log(archer.introduceYourself());
   console.log(archerCaptain.introduceYourself());
